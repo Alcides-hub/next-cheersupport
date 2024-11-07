@@ -1,0 +1,43 @@
+{
+  "name": "next-cheersupport",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "predev": "npm run typegen",
+  "prebuild": "npm run typegen",
+  "typegen": "sanity schema extract --path=./src/sanity/extract.json && sanity typegen generate"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.4.0",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.62.3",
+    "blurhash": "^2.0.5",
+    "next": "15.0.2",
+    "next-sanity": "^9.8.8",
+    "react": "19.0.0-rc-02c0e824-20241028",
+    "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "sanity": "^3.62.3",
+    "sharp": "^0.33.5",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  },
+  "packageManager": "npm@10.5.2",
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
+  }
+}
