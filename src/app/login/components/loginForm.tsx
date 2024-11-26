@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 // components/LoginForm.tsx
 
 import { useState } from "react";
@@ -14,12 +15,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation"; // For redirection
 import SignInWithGoogleButton from "./SignInWithGoogleButton";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter(); // Next.js router for navigation
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission
@@ -31,7 +34,6 @@ export default function LoginForm() {
         password,
       });
 
-      // Log the response from Supabase
       if (error) {
         console.error("Login error:", error.message);
         setErrorMessage(error.message); // Display error to the user
@@ -40,16 +42,8 @@ export default function LoginForm() {
 
       console.log("Login success. Session data:", data);
 
-      // Fetch the session after login to confirm it is set
-      const { data: sessionData } = await supabase.auth.getSession();
-      console.log("Session after login:", sessionData);
-
-      // Debug localStorage to confirm session tokens are stored
-      const localStorageData = localStorage.getItem("supabase.auth.token");
-      console.log("LocalStorage Supabase Token after login:", localStorageData);
-
-      setErrorMessage(""); // Clear any previous error
-      alert("Login successful!"); // Optional: Provide feedback to the user
+      // Redirect to dashboard or another page after successful login
+      router.push("/"); // Change to your intended route
     } catch (error: any) {
       console.error("Error during handleLogin:", error);
       setErrorMessage(error.message || "An error occurred during login.");

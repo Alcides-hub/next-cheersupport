@@ -47,7 +47,7 @@ const LoginLogoutButton = () => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       setIsLoggedIn(false); // Reset state after logout
-      router.push("/"); // Redirect to login page
+      router.push("/login"); // Redirect to login page
     } catch (error) {
       console.error("Error during signout:", error);
     }
@@ -56,7 +56,7 @@ const LoginLogoutButton = () => {
   return (
     <Button
       variant="outline"
-      onClick={isLoggedIn ? handleSignout : () => router.push("/")}
+      onClick={isLoggedIn ? handleSignout : () => router.push("/login")}
     >
       {isLoggedIn ? "Logout" : "Login"}
     </Button>
