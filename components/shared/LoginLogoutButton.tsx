@@ -26,17 +26,27 @@ const LoginLogoutButton = () => {
   useEffect(() => {
     // Fetch session status on component mount
     fetchAuthStatus();
-
+  
     // Listen for authentication state changes
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       console.log("Auth state changed:", _event, session);
-      setIsLoggedIn(!!session?.user); // Dynamically update state
+      setIsLoggedIn(!!session?.user);
     });
-
+  
+    // Debugging subscription object
+    console.log("Subscription object:", subscription);
+  
     // Cleanup subscription
-    return () => subscription.unsubscribe();
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === "function") {
+        subscription.unsubscribe();
+      } else {
+        console.warn("Subscription does not have an unsubscribe method:", subscription);
+      }
+    };
   }, []);
-
+  
+  
   useEffect(() => {
     console.log("Auth state updated. IsLoggedIn:", isLoggedIn);
   }, [isLoggedIn]);

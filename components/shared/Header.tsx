@@ -1,21 +1,19 @@
 "use client";
 
-import Link from 'next/link'
+import Link from "next/link";
 import Image from "next/image";
-import { Button, DarkThemeToggle } from "flowbite-react";
-import { useState, useEffect} from "react";
-// import "flowbite";
-// import "@/app/globals.css";
-import LoginButton from "@/components/shared/LoginLogoutButton"
+import LoginButton from "@/components/shared/LoginLogoutButton";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+
 
 export function Header() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme(); // Use next-themes for managing theme state
  
   return (
-    <div className={`${
-      darkMode ? "dark" : ""
-    } from-pink-50 to-white bg-gradient-to-b p-6`}>
-      <header className="bg-white/80 shadow-md flex items-center justify-between p-6 rounded-lg container mx-auto shadow-pink-50">
+    <div className="bg-primary p-6">
+      <header className="bg-primary text-foreground shadow-md flex items-center justify-between p-6 rounded-lg container mx-auto shadow-pink-50">
         <Link
           className="text-pink-700 md:text-xl font-bold tracking-tight"
           href="/"
@@ -65,10 +63,21 @@ export function Header() {
           </li>
         </ul>
         <div className="flex items-center gap-4">
-         {/* <Button href="/login" color="blue"> */}
          <LoginButton/>
-         {/* </Button> */}
-        <DarkThemeToggle onClick={() => setDarkMode(!darkMode)} />
+         {/* Theme Toggle */}
+         <Button
+            onClick={() =>
+              setTheme(theme === "light" ? "dark" : "light")
+            }
+            className="p-2"
+            aria-label="Toggle Theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </Button>
         </div>
       </header>
     </div>

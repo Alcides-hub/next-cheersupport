@@ -19,6 +19,8 @@ export default {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
   			},
+			  cardTitle: 'var(--card-title)', // Gradient for card titles
+			  cardTitleForeground: 'hsl(var(--card-title-foreground))', // Text color for card titles
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'

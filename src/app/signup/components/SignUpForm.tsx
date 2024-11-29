@@ -15,7 +15,7 @@ export default function SignUpForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={signup} method="post">
+        <form action={signup}>
           <div className="grid gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
