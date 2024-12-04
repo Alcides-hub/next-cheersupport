@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/src/lib/supabase/client'; // Update path to Supabase client
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
+import { UploadMediaButton } from "@/components/shared/upload-media-button"
+
 
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState({ full_name: '', message: '' });
+  const [profile, setProfile] = useState({ full_name: '', message: '', email: '' });
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState('https://github.com/shadcn.png');
   
@@ -17,23 +19,21 @@ export default function ProfilePage() {
   };
 
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // Get the first selected file
+  const onUpload = async (file: File | null) => {
     if (file) {
       try {
-        // Create FormData to send the file
         const formData = new FormData();
         formData.append("file", file);
   
-        // Example API endpoint for uploading images
         const response = await fetch("/api/upload-image", {
           method: "POST",
           body: formData,
         });
   
         if (response.ok) {
-          const { url } = await response.json(); // Assuming the backend returns the uploaded image URL
+          const { url } = await response.json();
           setProfile((prev) => ({ ...prev, avatar_url: url }));
+          setPreview(url); // Update the avatar preview
           console.log("Image uploaded successfully:", url);
         } else {
           console.error("Image upload failed:", response.statusText);
@@ -43,7 +43,7 @@ export default function ProfilePage() {
       }
     }
   };
-
+  
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -91,41 +91,42 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-md mx-auto space-y-4 p-6 bg-primary shadow rounded">
-      <h1 className="text-2xl font-bold">プロフィールを編集</h1>
-       <div>
-        <Avatar className="mb-6">
-          <AvatarImage src={preview} />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <label className='block text-sm font-medium mb-4'>Upload Photo</label> 
-        <input
-        type="file"
-        accept="image/*"
-        className="w-full mb-2 border rounded"
-        onChange={handleImageUpload}
-        />
-        <label className="block text-sm font-medium mb-1">Full Name</label>
-        <input
-          type="text"
-          value={profile.full_name}
-          onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
-          className="w-full p-1 border rounded"
-        />
-      </div>
-      <label className="block text-sm font-medium">Bio Message</label>
-      <Textarea
-        placeholder="Type your message here."
-        value={profile.message}
-        onChange={handleText}
-        className="w-full p-2 border rounded"
-      />
-      <Button
-        onClick={handleUpdate}
-        disabled={loading}
-        className="w-full bg-primary text-foreground py-2 rounded"
-      >
-        {loading ? 'Saving...' : 'Save Profile'}
-      </Button>
+    <h1 className="text-2xl font-bold">プロフィールを編集</h1>
+    <div className="flex items-center gap-4">
+      <Avatar className="w-16 h-16">
+        <AvatarImage src={preview} />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <UploadMediaButton mediaType="image" onUpload={onUpload} />
     </div>
-  );
+    <label className="block text-sm font-medium mt-4">Full Name</label>
+    <input
+      type="text"
+      value={profile.full_name}
+      onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
+      className="w-full p-1 border rounded"
+    />
+    <label className="block text-sm font-medium mt-4">Email</label>
+    <input
+      type="text"
+      value={profile.email}
+      onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+      className="w-full p-1 border rounded"
+    />
+    <label className="block text-sm font-medium mt-4">Bio Message</label>
+    <Textarea
+      placeholder="Type your message here."
+      value={profile.message}
+      onChange={handleText}
+      className="w-full p-2 border rounded"
+    />
+    <Button
+      onClick={handleUpdate}
+      disabled={loading}
+      className="w-full bg-primary text-foreground py-2 rounded mt-4"
+    >
+      {loading ? 'Saving...' : 'Save Profile'}
+    </Button>
+  </div>  
+  )
 }

@@ -43,7 +43,7 @@ export default function LoginForm() {
       console.log("Login success. Session data:", data);
 
       // Redirect to dashboard or another page after successful login
-      router.push("/"); // Change to your intended route
+      router.push("/profile"); // Change to your intended route
     } catch (error: any) {
       console.error("Error during handleLogin:", error);
       setErrorMessage(error.message || "An error occurred during login.");
