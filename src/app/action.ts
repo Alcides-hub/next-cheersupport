@@ -1,49 +1,58 @@
-'use server'
+// 'use server';
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
+// import { redirect } from 'next/navigation';
 
-import { createClient } from '@/src/lib/supabase/server'
+// export async function login(formData: FormData) {
 
-export async function login(formData: FormData) {
-  const supabase = await createClient()
+//   const { sessions, users } = require("@clerk/clerk-sdk-node");
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
+//   console.log("Sessions:", sessions);
+//   console.log("Users:", users);
+//   const data = {
+//     email: formData.get('email') as string,
+//     password: formData.get('password') as string,
+//   };
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+//   try {
+//     const session = await sessions.create({
+//       identifier: data.email,
+//       password: data.password,
+//     });
 
-  if (error) {
-    redirect('/error')
-  }
+//     if (!session) {
+//       redirect('/error');
+//     }
 
-  revalidatePath('/', 'layout')
-  redirect('/profile')
-}
+//     redirect('/profile');
+//   } catch (error: any) {
+//     console.error('Login error:', error.message);
+//     redirect('/error');
+//   }
+// }
 
-export async function signup(formData: FormData) {
-  const supabase = await createClient()
+// export async function signup(formData: FormData) {
+//   const { sessions, users } = require("@clerk/clerk-sdk-node");
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
+//   console.log("Sessions:", sessions);
+//   console.log("Users:", users);
+//   const data = {
+//     email: formData.get('email') as string,
+//     password: formData.get('password') as string,
+//   };
 
-  const { error } = await supabase.auth.signUp(data)
+//   try {
+//     const user = await users.create({
+//       emailAddress: [data.email],
+//       password: data.password,
+//     });
 
-  console.log('Signup data:', data);
-  console.log('Signup error:', error);  
+//     if (!user) {
+//       redirect('/error');
+//     }
 
-  if (error) {
-    redirect('/error')
-  }
-
-  revalidatePath('/', 'layout')
-  redirect('/login')
-}
+//     redirect('/login');
+//   } catch (error: any) {
+//     console.error('Signup error:', error.message);
+//     redirect('/error');
+//   }
+// }

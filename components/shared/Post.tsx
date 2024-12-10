@@ -1,11 +1,11 @@
 import { Author } from "@/components/shared/Author";
 import { Categories } from "@/components/shared/Categories";
-import { components } from "@/sanity/portableTextComponents";
+import { components } from "@/src/lib/sanity/portableTextComponents";
 import { PortableText } from "next-sanity";
-import { POST_QUERYResult } from "@/sanity/types";
+import { POST_QUERYResult } from "@/types/sanity.types";
 import { PublishedAt } from "@/components/shared/PublishedAt";
 import { Title } from "@/components/shared/Title";
-import { urlFor } from "@/sanity/lib/image";
+import { urlFor } from "@/src/lib/sanity/image";
 import Image from "next/image";
 
 export function Post(props: NonNullable<POST_QUERYResult>) {

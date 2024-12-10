@@ -1,8 +1,6 @@
-"use client";
-
+import { SignInButton, SignOutButton, UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
-import LoginButton from "@/components/shared/LoginLogoutButton";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -10,7 +8,10 @@ import { Button } from "@/components/ui/button";
 
 export function Header() {
   const { theme, setTheme } = useTheme(); // Use next-themes for managing theme state
- 
+  const { isSignedIn } = useAuth(); // Clerk hook to check if the user is signed in
+  console.log("Signed In:", isSignedIn);
+
+
   return (
     <div className="bg-primary p-6">
       <header className="bg-primary text-foreground shadow-md flex items-center justify-between p-6 rounded-lg container mx-auto shadow-pink-50">
@@ -19,53 +20,64 @@ export function Header() {
           href="/"
         >
           <Image
-         src="/images/cheersupport-logo.png"
-         alt="cheersupport logo"
-         width={120}
-         height={120}
-       />
+            src="/images/cheersupport-logo.png"
+            alt="cheersupport logo"
+            width={120}
+            height={120}
+          />
         </Link>
         <ul className="flex items-center gap-4 font-semibold text-slate-700">
-         <li className="px-2">
+          <li className="px-2">
             <Link href="/" className="hover:text-blue-500">
-            トップ
+              トップ
             </Link>
           </li>
-         <li className="px-2">
+          <li className="px-2">
             <Link href="/search" className="hover:text-blue-500">
-            さがす
+              さがす
             </Link>
           </li>
           <li className="px-2">
             <Link href="/ranking" className="hover:text-blue-500">
-            ランキング
+              ランキング
             </Link>
           </li>
           <li className="px-2">
             <Link href="/attention" className="hover:text-blue-500">
-            注目
+              注目
             </Link>
           </li>
           <li className="px-2">
             <Link href="/contact" className="hover:text-blue-500">
-            お知らせ
+              お知らせ
             </Link>
           </li>
           <li className="px-2">
             <Link href="/help" className="hover:text-blue-500">
-            ヘルプ
+              ヘルプ
             </Link>
           </li>
           <li className="px-2">
             <Link href="/streaming" className="hover:text-blue-500">
-            OBS
+              OBS
             </Link>
           </li>
         </ul>
         <div className="flex items-center gap-4">
-         <LoginButton/>
-         {/* Theme Toggle */}
-         <Button
+          {isSignedIn ? (
+            <>
+              {/* <UserButton /> User profile button */}
+              <SignOutButton>
+                <Button variant="outline">Logout</Button>
+              </SignOutButton>
+            </>
+          ) : (
+            <SignInButton mode="modal">
+              <Button variant="outline">Login</Button>
+            </SignInButton>
+          )}
+          {/* Theme Toggle */}
+          <Button
             onClick={() =>
               setTheme(theme === "light" ? "dark" : "light")
             }
@@ -78,8 +90,9 @@ export function Header() {
               <Moon className="w-5 h-5" />
             )}
           </Button>
+          <UserButton />
         </div>
       </header>
     </div>
-  )
+  );
 }

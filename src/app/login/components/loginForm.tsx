@@ -1,10 +1,9 @@
 'use client';
 
-// components/LoginForm.tsx
-
 import { useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/src/lib/supabase/client"; // Ensure this points to your supabase client
+import { useRouter } from "next/navigation";
+import { useSignIn } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,38 +14,39 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation"; // For redirection
-import SignInWithGoogleButton from "./SignInWithGoogleButton";
+import { SignInButton } from "@clerk/nextjs";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter(); // Next.js router for navigation
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter();
+  const { isLoaded, signIn } = useSignIn();
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
+
+    if (!isLoaded) {
+      setErrorMessage("Authentication service is not loaded yet.");
+      return;
+    }
 
     try {
-      // Attempt to sign in with email and password
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+      // Email and password sign-in
+      const result = await signIn.create({
+        identifier: email,
         password,
       });
 
-      if (error) {
-        console.error("Login error:", error.message);
-        setErrorMessage(error.message); // Display error to the user
-        return;
+      if (result.status === "complete") {
+        console.log("Login success.");
+        router.push("/profile"); // Redirect to your profile page
+      } else {
+        setErrorMessage("Authentication incomplete. Please try again.");
       }
-
-      console.log("Login success. Session data:", data);
-
-      // Redirect to dashboard or another page after successful login
-      router.push("/profile"); // Change to your intended route
     } catch (error: any) {
-      console.error("Error during handleLogin:", error);
-      setErrorMessage(error.message || "An error occurred during login.");
+      console.error("Login error:", error);
+      setErrorMessage(error.errors?.[0]?.message || "An error occurred during login.");
     }
   };
 
@@ -56,7 +56,7 @@ export default function LoginForm() {
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email and password to login to your account.
+            Enter your email and password to log in or use Google/LINE.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -87,14 +87,28 @@ export default function LoginForm() {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <SignInWithGoogleButton />
             </div>
           </form>
+          <div className="mt-4 grid gap-2">
+            {/* Sign in with Google */}
+            <SignInButton mode="redirect" >
+                <Button variant="outline" className="w-full">
+                  Sign in with Google
+                </Button>
+              </SignInButton>
+
+              {/* Sign in with LINE */}
+              <SignInButton mode="redirect">
+                <Button variant="outline" className="w-full">
+                  Sign in with LINE
+                </Button>
+              </SignInButton>
+          </div>
           {errorMessage && (
             <div className="mt-2 text-center text-red-500">{errorMessage}</div>
           )}
           <div className="mt-4 text-center text-sm">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/signup" className="underline">
               Sign up
             </Link>

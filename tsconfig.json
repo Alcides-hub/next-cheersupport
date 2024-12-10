@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["@clerk/clerk-sdk-node"],
     "target": "ES6",
     "lib": [
       "dom",
