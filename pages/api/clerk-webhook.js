@@ -1,6 +1,6 @@
 import { buffer } from 'micro';
 import crypto from 'crypto';
-import { prisma } from '@/lib/prisma'; // Make sure Prisma is correctly configured
+import { prisma } from '@/src/lib/prisma'; // Make sure Prisma is correctly configured
 
 export const config = {
   api: {
