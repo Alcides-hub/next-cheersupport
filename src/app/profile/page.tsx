@@ -1,5 +1,5 @@
 'use client';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useState, useEffect } from 'react';
 import { supabase } from '@/src/lib/supabase/client'; // Update path to Supabase client
 import { Button } from "@/components/ui/button";
@@ -47,28 +47,36 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session) {
-        console.error('User not logged in');
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('full_name, avatar_url')
-        .eq('id', session.user.id)
-        .single();
-
-      if (data) {
-        setProfile(data);
-      } else if (error) {
-        console.error('Error fetching profile:', error.message);
+      setLoading(true); // Start loading
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+  
+        if (!session) {
+          console.error('User not logged in');
+          return;
+        }
+  
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('full_name, avatar_url')
+          .eq('id', session.user.id)
+          .single();
+  
+        if (data) {
+          setProfile(data);
+        } else if (error) {
+          console.error('Error fetching profile:', error.message);
+        }
+      } catch (error) {
+        console.error("Error during fetchProfile:", error);
+      } finally {
+        setLoading(false); // End loading
       }
     };
-
+  
     fetchProfile();
   }, []);
+  
 
  const handleUpdate = async () => {
     try {

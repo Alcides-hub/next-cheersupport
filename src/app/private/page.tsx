@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabase/server';
 
 console.log(supabase); 
 export default async function PrivatePage() {
-  const { auth } = supabase;
+  // const { auth } = supabase;
 
 
   const { data, error } = await supabase.auth.getUser()

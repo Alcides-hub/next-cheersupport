@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useSignUp, useAuth } from "@clerk/nextjs";
+import { useSignUp } from "@clerk/nextjs";
 
 export default function SignUpForm() {
   const { isLoaded, signUp } = useSignUp();
@@ -37,12 +37,17 @@ export default function SignUpForm() {
       });
   
       window.location.href = "/sign-in"; // Redirect after signup
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Signup error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred during signup.");
+    
+      if (err && typeof err === "object" && "errors" in err) {
+        const errorObj = err as { errors?: { message: string }[] };
+        setError(errorObj.errors?.[0]?.message || "An error occurred during signup.");
+      } else {
+        setError("An error occurred during signup.");
+      }
     }
-  };
-  
+  }    
 
   return (
     <Card className="mx-auto max-w-sm">

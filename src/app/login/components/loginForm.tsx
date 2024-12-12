@@ -44,11 +44,17 @@ export default function LoginForm() {
       } else {
         setErrorMessage("Authentication incomplete. Please try again.");
       }
-    } catch (error: any) {
-      console.error("Login error:", error);
-      setErrorMessage(error.errors?.[0]?.message || "An error occurred during login.");
-    }
-  };
+     } catch (err: unknown) {
+        console.error("Signup error:", err);
+      
+        if (err && typeof err === "object" && "errors" in err) {
+          const errorObj = err as { errors?: { message: string }[] };
+          setErrorMessage(errorObj.errors?.[0]?.message || "An error occurred during signup.");
+        } else {
+          setErrorMessage("An error occurred during signup.");
+        }
+      }
+    }    
 
   return (
     <div className="flex h-screen items-center justify-center px-4">

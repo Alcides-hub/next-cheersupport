@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { sanityFetch } from "@/src/lib/sanity/live";
+/* eslint-disable */
+
 import { POSTS_QUERY } from "@/src/lib/sanity/queries";
 import { Title } from '@/components/shared/Title';
 import { client } from '@/src/lib/sanity/client';

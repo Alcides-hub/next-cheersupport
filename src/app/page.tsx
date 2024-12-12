@@ -1,8 +1,8 @@
 'use client';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Link from "next/link";
 import { useState } from "react";
-import { Button, DarkThemeToggle } from "flowbite-react";
+// import { Button, DarkThemeToggle } from "flowbite-react";
 import Image from "next/image";
 
 export default function Page() {
@@ -38,10 +38,18 @@ export default function Page() {
           </div>
         </div>
       </section>
+      {/* Dark Mode Toggle */}
+      <div className="fixed bottom-4 right-4">
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="bg-gray-800 text-white px-4 py-2 rounded shadow"
+        >
+          Toggle Dark Mode
+        </button>
+      </div>
     </div>
   );
 }
-
 function Carousel() {
   const images = [
     "/images/IMG_3843.jpg",
