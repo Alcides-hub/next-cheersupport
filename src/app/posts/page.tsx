@@ -5,11 +5,10 @@ import { Title } from '@/components/shared/Title';
 import { client } from '@/src/lib/sanity/client';
 import { PostCard } from '@/components/shared/PostCard';
 
-const options = { next: { revalidate: 60 } }
+const options = { next: { revalidate: 60 } };
 
 export default async function Page() {
-  
-  const posts = await client.fetch(POSTS_QUERY, {}, options)
+  const posts = await client.fetch(POSTS_QUERY, {}, options);
 
   return (
     <main className="container mx-auto grid grid-cols-1 gap-6 p-12">
@@ -20,5 +19,5 @@ export default async function Page() {
         ))}
       </div>
     </main>
-  )
+  );
 }
