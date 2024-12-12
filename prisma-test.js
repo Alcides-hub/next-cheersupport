@@ -10,8 +10,13 @@ async function main() {
   // Add a new user
   const newUser = await prisma.user.create({
     data: {
-      email: 'test@example.com',
-      name: 'Test User',
+        id: '12345',
+        email_address: 'test@example.com',
+        first_name: 'Test',
+        last_name: 'User',
+        image_url: 'https://example.com/avatar.png',
+        banner_url: 'https://example.com/banner.png',
+        username: 'testuser',
     },
   });
   console.log('New User:', newUser);
