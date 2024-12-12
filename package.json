@@ -27,7 +27,7 @@
     "@sanity/vision": "^3.63.0",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.46.1",
+    "@supabase/supabase-js": "^2.47.5",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
