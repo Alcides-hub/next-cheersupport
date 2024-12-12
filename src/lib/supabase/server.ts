@@ -1,12 +1,13 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Check if environment variables are loaded
+// Ensure environment variables are defined
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error("Supabase environment variables are not set");
+  throw new Error('Supabase environment variables are not set');
 }
 
-// Create and export Supabase client
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+console.log("Supabase client initialized");
+// Export the Supabase client
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
