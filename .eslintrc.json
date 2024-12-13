@@ -9,7 +9,7 @@
     },
     "overrides": [
       {
-        "files": ["src/app/posts/*/page.tsx"],
+        "files": ["src/app/posts/*/page.tsx", "src/app/page.tsx"], 
         "rules": {
           "@typescript-eslint/no-unused-vars": "off"
         }
