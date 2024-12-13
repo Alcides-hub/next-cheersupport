@@ -1,18 +1,13 @@
-import { sanityFetch } from '@/src/lib/sanity/live'
+
 import { PortableText } from "next-sanity";
 import { POST_QUERY } from '@/src/lib/sanity/queries'
 import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Link from 'next/link'
 import { urlFor } from "@/src/lib/sanity/image";
-import { components } from "@/src/lib/sanity/portableTextComponents";
-import ComponentStyle from 'styled-components/dist/models/ComponentStyle';
-import { Post } from '@/components/shared/Post';
 import { client } from '@/src/lib/sanity/client';
 
-
-
-type PostIndexProps = { params: { slug: string } }
+export type ParamsType = Promise<{ slug: string }>;
 
 const options = { next: { revalidate: 60 } }
 
@@ -34,11 +29,13 @@ const customComponents = {
   },
 };
 
-export default async function Page({ params }: PostIndexProps) {
-  const post = await client.fetch(POST_QUERY, params, options)
+export default async function Page({ params }: { params: ParamsType }) {
+  const { slug } = await params; // Await the promise to get the slug
+
+  const post = await client.fetch(POST_QUERY, { slug });
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (

@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 import flowbite from "flowbite-react/tailwind";
+import animate from "tailwindcss-animate"; // Import the plugin
 
-export default {
+const config = {
   darkMode: ["class"],
   content: [
-    ...flowbite.content(), // Spread the content from flowbite
-    "./src/**/*.{js,ts,jsx,tsx}", // Add your custom paths if needed
+    ...flowbite.content(),
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -28,7 +29,7 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "hsl(var(--primary))", // Use the light or dark `--primary` value
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -61,7 +62,9 @@ export default {
     },
   },
   plugins: [
-    flowbite.plugin(), // Use the flowbite plugin
-    require("tailwindcss-animate"), // Add other plugins using require if necessary
+    flowbite.plugin(),
+    animate, // Use the imported plugin
   ],
 };
+
+export default config;

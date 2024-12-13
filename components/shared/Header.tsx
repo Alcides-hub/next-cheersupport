@@ -14,7 +14,7 @@ export function Header() {
 
   return (
     <div className="bg-primary p-6">
-      <header className="bg-primary text-foreground shadow-md flex items-center justify-between p-6 rounded-lg container mx-auto shadow-pink-50">
+      <header className="bg-primary text-foreground flex items-center justify-between p-6 rounded-lg container mx-auto shadow-pink-50" style={{ boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
         <Link
           className="text-pink-700 md:text-xl font-bold tracking-tight"
           href="/"
@@ -26,7 +26,7 @@ export function Header() {
             height={120}
           />
         </Link>
-        <ul className="flex items-center gap-4 font-semibold text-slate-700">
+        <ul className="flex items-center gap-10 font-semibold text-slate-700">
           <li className="px-2">
             <Link href="/" className="hover:text-blue-500">
               トップ
@@ -68,12 +68,12 @@ export function Header() {
             <>
               {/* <UserButton /> User profile button */}
               <SignOutButton>
-                <Button variant="outline">Logout</Button>
+                <Button className="rounded-lg" variant="outline">Logout</Button>
               </SignOutButton>
             </>
           ) : (
             <SignInButton mode="modal">
-              <Button variant="outline">Login</Button>
+              <Button className="rounded-lg" variant="outline">Login</Button>
             </SignInButton>
           )}
           {/* Theme Toggle */}
@@ -81,13 +81,13 @@ export function Header() {
             onClick={() =>
               setTheme(theme === "light" ? "dark" : "light")
             }
-            className="p-2"
+            className="p-2 rounded-lg"
             aria-label="Toggle Theme"
           >
             {theme === "dark" ? (
-              <Sun className="w-5 h-5" />
+              <Sun className="w-5 h-5 rounded-lg" />
             ) : (
-              <Moon className="w-5 h-5" />
+              <Moon className="w-5 h-5 rounded-lg" />
             )}
           </Button>
           <UserButton />
