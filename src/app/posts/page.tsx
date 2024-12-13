@@ -1,4 +1,5 @@
-/* eslint-disable */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { POSTS_QUERY } from "@/src/lib/sanity/queries";
 import { Title } from '@/components/shared/Title';
