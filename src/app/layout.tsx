@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className="min-h-screen">
           <ThemeProvider
             attribute="class"

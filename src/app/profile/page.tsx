@@ -55,7 +55,7 @@ export default function ProfilePage() {
           console.error('User not logged in');
           return;
         }
-  
+        
         const { data, error } = await supabase
           .from('profiles')
           .select('full_name, avatar_url')

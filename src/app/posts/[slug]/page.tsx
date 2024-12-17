@@ -15,6 +15,7 @@ const options = { next: { revalidate: 60 } }
 
 const customComponents = {
   types: {
+    // @ts-expect-error/not-important
     image: ({ value }) => (
       <div className="flex justify-center my-6">
         <Image
