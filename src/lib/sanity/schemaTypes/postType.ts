@@ -55,6 +55,22 @@ export const postType = defineType({
       name: 'body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'tags',
+      type: 'array',
+      of: [defineArrayMember({type: 'string'})],
+      title: 'Tags',
+    }),
+    defineField({
+      name: 'color',
+      type: 'color',
+      title: 'Color',
+    }),
+    defineField({
+      name: 'icon',
+      type: 'image',
+      title: 'Category Icon',
+    }),
   ],
   preview: {
     select: {

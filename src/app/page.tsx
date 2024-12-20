@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 // import { Button, DarkThemeToggle } from "flowbite-react";
-import Image from "next/image";
+import Carousel from '../../components/shared/Carousel';
+import Post from "../app/homepage/posts/page"; // Import Post component
+
 
 export default function Page() {
   const [darkMode, setDarkMode] = useState(false);
@@ -38,41 +40,20 @@ export default function Page() {
           </div>
         </div>
       </section>
+      {/* section for the the post component here */}
+      <section className="container mx-auto flex items-center justify-center min-h-screen py-6 px-6">
+      <div className="text-left">
+          <h2 className="text-2xl font-bold mb-8">LATESTS POSTS</h2> 
+          <Post /> {/* Include Post Component */}
+         </div>
+        </section>
+      {/* section about post generation*/}
+      <section>
+        <div className="">
+        </div>
+      </section>
       </div>
   );
 }
-function Carousel() {
-  const images = [
-    "/images/IMG_3843.jpg",
-    "/images/IMG_3845.jpg",
-    "/images/IMG_3846.jpg",
-    "/images/IMG_3847.jpg",
-  ];
-  const [current, setCurrent] = useState(0);
 
-  const nextSlide = () => setCurrent((current + 1) % images.length);
-  const prevSlide = () => setCurrent((current - 1 + images.length) % images.length);
-
-  return (
-    <div className="relative w-full h-full">
-      <button
-        onClick={prevSlide}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700/50 text-white p-2 rounded-full z-10"
-      >
-        {"<"}
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700/50 text-white p-2 rounded-full z-10"
-      >
-        {">"}
-      </button>
-      <Image
-        src={images[current]}
-        alt={`Slide ${current + 1}`}
-        fill
-        className="rounded-lg object-cover"
-      />
-    </div>
-  );
-}
+  

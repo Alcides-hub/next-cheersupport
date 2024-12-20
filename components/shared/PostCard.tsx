@@ -1,41 +1,65 @@
 import { Author } from '@/components/shared/Author';
 import { Categories } from '@/components/shared/Categories';
 import { POSTS_QUERYResult } from '../../types/sanity.types';
-import { PublishedAt } from '@/components/shared/PublishedAt'
-import { urlFor } from '@/src/lib/sanity/image'
-import Image from 'next/image'
-import Link from 'next/link'
+import { PublishedAt } from '@/components/shared/PublishedAt';
+import { urlFor } from '@/src/lib/sanity/image';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export function PostCard(props: POSTS_QUERYResult[0]) {
-  const { title, author, mainImage, publishedAt, categories } = props
+  const { title, author, mainImage, publishedAt, categories, slug } = props;
 
   return (
-    <Link className="group" href={`/posts/${props.slug!.current}`}>
-      <article className="flex flex-col-reverse gap-4 md:grid md:grid-cols-12 md:gap-0">
-        <div className="md:col-span-2 md:pt-1">
-          <Categories categories={categories} />
+    <Card className="shadow-lg hover:shadow-xl transition-shadow border border-gray-200 rounded-lg overflow-hidden">
+      {/* Image Section */}
+      <CardHeader className="p-0">
+        {mainImage ? (
+          <Image
+            src={urlFor(mainImage).width(700).height(400).url()}
+            width={700}
+            height={400}
+            alt={mainImage.alt || title || ''}
+            className="w-full h-48 object-cover"
+          />
+        ) : null}
+      </CardHeader>
+
+      {/* Content Section */}
+      <CardContent className="p-4">
+        <h2 className="text-xl font-bold text-red-600 uppercase group-hover:text-red-800 transition-colors">
+          <Link href={`/posts/${slug?.current}`}>
+            {title}
+          </Link>
+        </h2>
+        <div className="flex items-center gap-x-4 mt-2">
+          <Author author={author} />
+          <PublishedAt publishedAt={publishedAt} />
         </div>
-        <div className="md:col-span-5 md:w-full">
-          <h2 className="text-2xl text-pretty font-semibold text-slate-800 group-hover:text-pink-600 transition-colors relative">
-            <span className="relative z-[1]">{title}</span>
-            <span className="bg-pink-50 z-0 absolute inset-0 rounded-lg opacity-0 transition-all group-hover:opacity-100 group-hover:scale-y-110 group-hover:scale-x-105 scale-75" />
-          </h2>
-          <div className="flex items-center mt-2 md:mt-6 gap-x-6">
-            <Author author={author} />
-            <PublishedAt publishedAt={publishedAt} />
+        <p className="text-sm text-gray-500 mt-2">{new Date(publishedAt).toDateString()}</p>
+
+        {/* Categories (Tags) */}
+        {categories && categories.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {categories.map((category) => (
+              <span
+                key={category._id}
+                className="bg-gray-200 text-gray-700 text-xs font-medium px-3 py-1 rounded-full"
+              >
+                {category.title}
+              </span>
+            ))}
           </div>
-        </div>
-        <div className="md:col-start-9 md:col-span-4 rounded-lg overflow-hidden flex">
-          {mainImage ? (
-            <Image
-              src={urlFor(mainImage).width(400).height(200).url()}
-              width={400}
-              height={200}
-              alt={mainImage.alt || title || ''}
-            />
-          ) : null}
-        </div>
-      </article>
-    </Link>
-  )
+        )}
+      </CardContent>
+
+      {/* Footer with Button */}
+      <CardFooter className="p-4">
+        <Link href={`/posts/${slug?.current}`}>
+          <Button variant="outline">Read More</Button>
+        </Link>
+      </CardFooter>
+    </Card>
+  );
 }
