@@ -43,7 +43,7 @@ export default function Page() {
       {/* section for the the post component here */}
       <section className="container mx-auto flex items-center justify-center min-h-screen py-6 px-6">
       <div className="text-left">
-          <h2 className="text-2xl font-bold mb-8">LATESTS POSTS</h2> 
+          <h2 className="text-2xl font-bold mb-8">最新記事</h2> 
           <Post /> {/* Include Post Component */}
          </div>
         </section>

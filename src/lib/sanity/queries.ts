@@ -59,3 +59,25 @@ export const POSTS_QUERY = defineQuery(`*[_type == "post" && defined(slug.curren
     image
   }
 }`);
+
+export const OFFSET_BASED_POSTS_QUERY = defineQuery(`
+*[_type == "post"] | order(publishedAt desc)[$start...$end]{
+  _id,
+  title,
+  slug,
+  mainImage {
+    asset -> {
+      url
+    },
+    alt
+  },
+  publishedAt,
+  "categories": categories[]->{
+    _id,
+    title
+  },
+  author->{
+    name,
+    image
+  }
+}`);

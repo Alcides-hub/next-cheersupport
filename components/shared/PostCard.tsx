@@ -37,8 +37,6 @@ export function PostCard(props: POSTS_QUERYResult[0]) {
           <Author author={author} />
           <PublishedAt publishedAt={publishedAt} />
         </div>
-        <p className="text-sm text-gray-500 mt-2">{new Date(publishedAt).toDateString()}</p>
-
         {/* Categories (Tags) */}
         {categories && categories.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
