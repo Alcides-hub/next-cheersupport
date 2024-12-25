@@ -361,7 +361,7 @@ export type POSTS_SLUGS_QUERYResult = Array<{
   slug: string | null;
 }>;
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{  _id,  title,  body,  mainImage {    asset -> {      url    },    alt  },  publishedAt,  "categories": coalesce(    categories[]->{      _id,      slug,      title    },    []  ),  author->{    name,    image  }}
+// Query: *[_type == "post" && slug.current == $slug][0]{  _id,  title,  body,  mainImage {    asset -> {      url    },    alt  },  publishedAt,  "categories": coalesce(    categories[]->{      _id,      slug,      title    },    []  ),  author->{    name,    image  },}
 export type POST_QUERYResult = {
   _id: string;
   title: string | null;
@@ -422,6 +422,38 @@ export type POST_QUERYResult = {
     } | null;
   } | null;
 } | null;
+// Variable: OFFSET_BASED_POSTS_QUERY
+// Query: *[_type == "post"] | order(publishedAt desc)[$start...$end]{  _id,  title,  slug,  mainImage {    asset -> {      url    },    alt  },  publishedAt,  "categories": categories[]->{    _id,    title  },  author->{    name,    image  }}
+export type OFFSET_BASED_POSTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  mainImage: {
+    asset: {
+      url: string | null;
+    } | null;
+    alt: string | null;
+  } | null;
+  publishedAt: string | null;
+  categories: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
+  author: {
+    name: string | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    } | null;
+  } | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -429,6 +461,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"post\" && defined(slug.current)]|order(publishedAt desc)[0...12]{\n  _id,\n  title,\n  slug,\n  body,\n  mainImage {\n    asset -> {\n      url\n    },\n    alt\n  },\n  publishedAt,\n  \"categories\": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title,\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  },\n  tags\n}": POSTS_QUERYResult;
     "*[_type == \"post\" && defined(slug.current)]{ \n  \"slug\": slug.current\n}": POSTS_SLUGS_QUERYResult;
-    "*[_type == \"post\" && slug.current == $slug][0]{\n  _id,\n  title,\n  body,\n  mainImage {\n    asset -> {\n      url\n    },\n    alt\n  },\n  publishedAt,\n  \"categories\": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  }\n}": POST_QUERYResult;
+    "*[_type == \"post\" && slug.current == $slug][0]{\n  _id,\n  title,\n  body,\n  mainImage {\n    asset -> {\n      url\n    },\n    alt\n  },\n  publishedAt,\n  \"categories\": coalesce(\n    categories[]->{\n      _id,\n      slug,\n      title\n    },\n    []\n  ),\n  author->{\n    name,\n    image\n  },\n}": POST_QUERYResult;
+    "\n*[_type == \"post\"] | order(publishedAt desc)[$start...$end]{\n  _id,\n  title,\n  slug,\n  mainImage {\n    asset -> {\n      url\n    },\n    alt\n  },\n  publishedAt,\n  \"categories\": categories[]->{\n    _id,\n    title\n  },\n  author->{\n    name,\n    image\n  }\n}": OFFSET_BASED_POSTS_QUERYResult;
   }
 }
