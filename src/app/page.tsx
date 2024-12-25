@@ -33,10 +33,10 @@ export default function Page() {
     <div
     className={`${
       darkMode ? "dark" : ""
-    } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 min-h-screen`}
+    } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 min-h-screen px-4`}
   >
     {/* Hero Section */}
-    <section className="roboto-font container mx-auto flex flex-col-reverse md:flex-row items-center justify-between py-16 px-6 gap-10">
+    <section className="roboto-font container mx-auto flex flex-col-reverse md:flex-row items-center justify-between py-6 gap-10 px-12">
       {/* Left Section */}
       <div className="flex-1 basis-1/2 text-center md:text-left mb-10 md:mb-0 mt-8">
         <h2 className="text-8xl font-bold my-6 uppercase">
@@ -94,7 +94,7 @@ export default function Page() {
       </div>
     </section>
      {/* section for the the post component here */}
-     <section className="container mx-auto flex items-center justify-center min-h-screen py-6 px-6">
+     <section className="container flex min-h-screen py-6 px-12">
       <div className="text-left">
           <h2 className="text-2xl font-bold mb-8">LATESTS POSTS</h2> 
           <Post /> {/* Include Post Component */}
