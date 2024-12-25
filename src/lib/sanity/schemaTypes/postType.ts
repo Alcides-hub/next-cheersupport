@@ -55,6 +55,13 @@ export const postType = defineType({
       name: 'body',
       type: 'blockContent',
     }),
+    defineField({
+      name: "tags",
+      type: "array",
+      title: "Tags",
+      description: "Select tags for this post.",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+    }),
   ],
   preview: {
     select: {
